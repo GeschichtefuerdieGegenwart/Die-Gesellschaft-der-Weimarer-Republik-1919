@@ -1,0 +1,657 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Soziale Milieus der Weimarer Republik 1919</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Source+Sans+3:wght@300..700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --font-display: 'Playfair Display', Georgia, serif;
+            --font-body: 'Source Sans 3', 'Helvetica Neue', sans-serif;
+            --text-xs:   clamp(0.75rem,  0.7rem + 0.25vw, 0.875rem);
+            --text-sm:   clamp(0.875rem, 0.8rem + 0.35vw, 1rem);
+            --text-base: clamp(1rem,     0.95rem + 0.25vw, 1.125rem);
+            --text-lg:   clamp(1.125rem, 1rem + 0.75vw, 1.5rem);
+            --text-xl:   clamp(1.5rem,   1.2rem + 1.25vw, 2.25rem);
+            --text-2xl:  clamp(2rem,     1.2rem + 2.5vw, 3.5rem);
+            --space-1:.25rem;--space-2:.5rem;--space-3:.75rem;--space-4:1rem;
+            --space-5:1.25rem;--space-6:1.5rem;--space-8:2rem;--space-10:2.5rem;
+            --space-12:3rem;--space-16:4rem;
+            --color-bg: #f4f1eb;
+            --color-surface: #faf8f3;
+            --color-surface-2: #ffffff;
+            --color-border: oklch(0.35 0.01 60 / 0.14);
+            --color-text: #1e1b14;
+            --color-text-muted: #6b6557;
+            --color-text-faint: #b0a898;
+            --color-accent: #7c3a1a;
+            --radius-sm:.375rem;--radius-md:.5rem;--radius-lg:.75rem;--radius-xl:1rem;
+            --shadow-sm:0 1px 3px oklch(0.2 0.02 60/0.08);
+            --shadow-md:0 4px 14px oklch(0.2 0.02 60/0.10);
+            --shadow-lg:0 12px 32px oklch(0.2 0.02 60/0.14);
+            --transition:180ms cubic-bezier(0.16,1,0.3,1);
+        }
+        *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+        html{scroll-behavior:smooth;-webkit-font-smoothing:antialiased}
+        body{font-family:var(--font-body);font-size:var(--text-base);color:var(--color-text);background:var(--color-bg);line-height:1.65}
+        img,svg{display:block;max-width:100%}
+        p{max-width:72ch;text-wrap:pretty}
+        h1,h2,h3,h4{text-wrap:balance;line-height:1.2}
+        button{cursor:pointer;background:none;border:none;font:inherit;color:inherit}
+
+        /* HEADER */
+        header{background:var(--color-text);color:#f5f0e8;padding:var(--space-10) 0 var(--space-8);border-bottom:3px solid var(--color-accent)}
+        .header-inner{max-width:960px;margin:0 auto;padding:0 var(--space-6)}
+        .header-eyebrow{font-size:var(--text-xs);letter-spacing:.1em;text-transform:uppercase;color:#b0a898;margin-bottom:var(--space-3)}
+        header h1{font-family:var(--font-display);font-size:var(--text-2xl);font-weight:700;color:#f5f0e8}
+        header h1 em{color:#d4a882;font-style:normal}
+        .header-sub{margin-top:var(--space-4);font-size:var(--text-sm);color:#8a8070;max-width:64ch}
+
+        /* CONTAINER */
+        .container{max-width:960px;margin:0 auto;padding:0 var(--space-6)}
+
+        /* INTRO */
+        .intro-section{padding:var(--space-10) 0 var(--space-6)}
+        .intro-section h2{font-family:var(--font-display);font-size:var(--text-xl);margin-bottom:var(--space-3)}
+        .intro-section p{color:var(--color-text-muted);margin-bottom:var(--space-4)}
+        .hint-box{background:oklch(0.55 0.08 40 / 0.1);border:1.5px solid oklch(0.45 0.1 30 / 0.2);border-radius:var(--radius-lg);padding:var(--space-4) var(--space-5);display:flex;gap:var(--space-3);align-items:flex-start;margin-top:var(--space-4)}
+        .hint-box p{color:var(--color-text-muted);font-size:var(--text-sm);margin:0;max-width:100%}
+
+        /* PYRAMID SECTION */
+        .pyramid-section{padding:var(--space-6) 0 var(--space-10)}
+        .pyramid-layout{display:grid;grid-template-columns:1fr 1fr;gap:var(--space-8);align-items:start}
+        @media(max-width:700px){.pyramid-layout{grid-template-columns:1fr}}
+
+        /* SVG Pyramid */
+        .pyramid-wrap{position:relative}
+        .pyramid-wrap svg{width:100%;height:auto;cursor:pointer}
+
+        /* Milieu Segments */
+        .seg{transition:filter var(--transition),opacity var(--transition)}
+        .seg:hover{filter:brightness(1.08)}
+        .seg.active{filter:brightness(1.12) drop-shadow(0 0 8px oklch(0.3 0.05 40 / 0.4))}
+
+        /* Legend */
+        .legend{display:flex;flex-direction:column;gap:var(--space-2);margin-top:var(--space-4)}
+        .legend-item{display:flex;align-items:center;gap:var(--space-3);cursor:pointer;padding:var(--space-2) var(--space-3);border-radius:var(--radius-md);border:1.5px solid transparent;transition:all var(--transition)}
+        .legend-item:hover{background:var(--color-surface-2);border-color:var(--color-border)}
+        .legend-item.active{background:var(--color-surface-2);border-color:var(--color-border);box-shadow:var(--shadow-sm)}
+        .legend-dot{width:16px;height:16px;border-radius:3px;flex-shrink:0}
+        .legend-label{font-size:var(--text-sm);font-weight:600}
+        .legend-pct{font-size:var(--text-xs);color:var(--color-text-faint);margin-left:auto}
+
+        /* DETAIL PANEL */
+        .detail-area{margin:var(--space-8) 0;min-height:200px}
+        .detail-panel{display:none;animation:fadeIn .25s ease}
+        .detail-panel.active{display:block}
+        @keyframes fadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+
+        .detail-card{background:var(--color-surface-2);border:1px solid var(--color-border);border-radius:var(--radius-xl);overflow:hidden;box-shadow:var(--shadow-md)}
+        .detail-header{padding:var(--space-6) var(--space-8);color:white}
+        .detail-header-tag{display:inline-block;font-size:var(--text-xs);font-weight:700;text-transform:uppercase;letter-spacing:.09em;background:oklch(1 0 0/0.18);border-radius:var(--radius-sm);padding:2px var(--space-3);margin-bottom:var(--space-3)}
+        .detail-header h3{font-family:var(--font-display);font-size:var(--text-xl);font-weight:700;margin-bottom:var(--space-1)}
+        .detail-header p{font-size:var(--text-sm);opacity:.88;max-width:60ch}
+
+        .detail-body{padding:var(--space-6) var(--space-8)}
+        .detail-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:var(--space-5);margin-bottom:var(--space-6)}
+        .detail-tile{background:var(--color-bg);border:1px solid var(--color-border);border-radius:var(--radius-lg);padding:var(--space-4) var(--space-5)}
+        .detail-tile-label{font-size:var(--text-xs);font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--color-text-faint);margin-bottom:var(--space-2)}
+        .detail-tile-value{font-size:var(--text-sm);font-weight:600;color:var(--color-text);line-height:1.4}
+
+        .detail-columns{display:grid;grid-template-columns:1fr 1fr;gap:var(--space-6);margin-bottom:var(--space-6)}
+        @media(max-width:580px){.detail-columns{grid-template-columns:1fr}}
+        .detail-col h4{font-size:var(--text-sm);font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--color-text-faint);margin-bottom:var(--space-3)}
+        .detail-list{list-style:none;display:flex;flex-direction:column;gap:var(--space-2)}
+        .detail-list li{font-size:var(--text-sm);color:var(--color-text-muted);padding-left:var(--space-4);position:relative}
+        .detail-list li::before{content:"–";position:absolute;left:0;color:var(--color-text-faint)}
+
+        /* Party badges */
+        .party-badges{display:flex;flex-wrap:wrap;gap:var(--space-2);margin-top:var(--space-2)}
+        .pbadge{display:inline-block;font-size:var(--text-xs);font-weight:700;padding:3px var(--space-3);border-radius:9999px;color:white}
+
+        /* Connection box */
+        .connection-box{background:oklch(0.55 0.08 40/0.08);border:1.5px solid oklch(0.45 0.1 30/0.18);border-radius:var(--radius-lg);padding:var(--space-5) var(--space-6)}
+        .connection-box h4{font-size:var(--text-sm);font-weight:700;margin-bottom:var(--space-2);color:var(--color-accent)}
+        .connection-box p{font-size:var(--text-sm);color:var(--color-text-muted);max-width:100%;margin:0}
+
+        /* TASKS */
+        .tasks-section{padding:var(--space-8) 0 var(--space-12)}
+        .tasks-section h2{font-family:var(--font-display);font-size:var(--text-xl);margin-bottom:var(--space-6)}
+        .tasks-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:var(--space-5)}
+        .task-card{background:var(--color-surface-2);border:1px solid var(--color-border);border-radius:var(--radius-xl);padding:var(--space-6);box-shadow:var(--shadow-sm)}
+        .task-num-badge{width:32px;height:32px;border-radius:9999px;background:var(--color-text);color:#f5f0e8;font-size:var(--text-sm);font-weight:700;display:flex;align-items:center;justify-content:center;margin-bottom:var(--space-4)}
+        .task-card h4{font-size:var(--text-sm);font-weight:700;margin-bottom:var(--space-2)}
+        .task-card p{font-size:var(--text-sm);color:var(--color-text-muted);max-width:100%;margin:0}
+
+        /* VERGLEICH */
+        .compare-section{padding:var(--space-8) 0}
+        .compare-section h2{font-family:var(--font-display);font-size:var(--text-xl);margin-bottom:var(--space-2)}
+        .compare-section .lead{color:var(--color-text-muted);font-size:var(--text-sm);margin-bottom:var(--space-6)}
+        .compare-table-wrap{overflow-x:auto;border-radius:var(--radius-xl);border:1px solid var(--color-border);box-shadow:var(--shadow-sm)}
+        table{width:100%;border-collapse:collapse;background:var(--color-surface-2);font-size:var(--text-sm)}
+        th{background:var(--color-text);color:#f5f0e8;padding:var(--space-4) var(--space-5);text-align:left;font-weight:700;white-space:nowrap}
+        td{padding:var(--space-4) var(--space-5);border-bottom:1px solid var(--color-border);vertical-align:top}
+        tr:last-child td{border-bottom:none}
+        tr:hover td{background:var(--color-bg)}
+
+        footer{text-align:center;padding:var(--space-10);color:var(--color-text-faint);font-size:var(--text-xs);border-top:1px solid var(--color-border);margin-top:var(--space-8)}
+    </style>
+</head>
+<body>
+
+<header>
+    <div class="header-inner">
+        <div class="header-eyebrow">Weimarer Republik 1919 · Gesellschaft &amp; Politik</div>
+        <h1>Soziale Milieus<br><em>und ihre Wahlentscheidung</em></h1>
+        <p class="header-sub">Wer lebte wie? Wer hatte welche Interessen? Und wen wählte man deshalb? Erkunde die gesellschaftlichen Schichten Deutschlands um 1919.</p>
+    </div>
+</header>
+
+<main>
+<section class="intro-section">
+<div class="container">
+    <h2>Die Gesellschaft im Jahr 1919</h2>
+    <p>Deutschland 1919 war eine tief gespaltene Gesellschaft. Der verlorene Krieg, die Novemberrevolution und die Inflation hatten alte Ordnungen erschüttert. Die Menschen gehörten sehr unterschiedlichen sozialen Gruppen an – mit sehr verschiedenen Lebensumständen, Ängsten und Hoffnungen. Diese sozialen Lagen bestimmten, welcher Partei sie ihre Stimme gaben.</p>
+    <div class="hint-box">
+        <span style="font-size:1.3rem">👆</span>
+        <p><strong>So funktioniert diese Seite:</strong> Klicke auf ein Milieu in der Pyramide oder auf einen Eintrag in der Legende – und erfahre, wie diese Menschen lebten, was sie forderten und wen sie wählten.</p>
+    </div>
+</div>
+</section>
+
+<section class="pyramid-section">
+<div class="container">
+<div class="pyramid-layout">
+
+    <!-- SVG PYRAMID -->
+    <div class="pyramid-wrap">
+        <svg viewBox="0 0 400 480" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Gesellschaftspyramide der Weimarer Republik">
+
+            <!-- Oberschicht -->
+            <g class="seg" id="seg-oberschicht" data-milieu="oberschicht" tabindex="0" role="button" aria-label="Oberschicht – ca. 5%">
+                <polygon points="200,20 140,90 260,90" fill="#5c3317"/>
+                <text x="200" y="60" text-anchor="middle" fill="white" font-size="12" font-family="'Source Sans 3',sans-serif" font-weight="700">Oberschicht</text>
+                <text x="200" y="76" text-anchor="middle" fill="rgba(255,255,255,0.8)" font-size="10" font-family="'Source Sans 3',sans-serif">~5 %</text>
+            </g>
+
+            <!-- Bildungsbürgertum / Intellektuelle -->
+            <g class="seg" id="seg-intellektuelle" data-milieu="intellektuelle" tabindex="0" role="button" aria-label="Bildungsbürgertum – ca. 8%">
+                <polygon points="140,95 100,160 300,160 260,95" fill="#8b5e3c"/>
+                <text x="200" y="127" text-anchor="middle" fill="white" font-size="12" font-family="'Source Sans 3',sans-serif" font-weight="700">Bildungsbürgertum</text>
+                <text x="200" y="143" text-anchor="middle" fill="rgba(255,255,255,0.8)" font-size="10" font-family="'Source Sans 3',sans-serif">~8 %</text>
+            </g>
+
+            <!-- Mittelstand -->
+            <g class="seg" id="seg-mittelstand" data-milieu="mittelstand" tabindex="0" role="button" aria-label="Mittelstand – ca. 20%">
+                <polygon points="100,165 60,240 340,240 300,165" fill="#3a6186"/>
+                <text x="200" y="197" text-anchor="middle" fill="white" font-size="12" font-family="'Source Sans 3',sans-serif" font-weight="700">Mittelstand &amp; Kleinbürgertum</text>
+                <text x="200" y="213" text-anchor="middle" fill="rgba(255,255,255,0.8)" font-size="10" font-family="'Source Sans 3',sans-serif">~20 %</text>
+            </g>
+
+            <!-- Bauernschaft -->
+            <g class="seg" id="seg-bauern" data-milieu="bauern" tabindex="0" role="button" aria-label="Bauernschaft – ca. 25%">
+                <polygon points="60,245 25,320 375,320 340,245" fill="#4a7c59"/>
+                <text x="200" y="277" text-anchor="middle" fill="white" font-size="12" font-family="'Source Sans 3',sans-serif" font-weight="700">Bauernschaft &amp; Landarbeiter</text>
+                <text x="200" y="293" text-anchor="middle" fill="rgba(255,255,255,0.8)" font-size="10" font-family="'Source Sans 3',sans-serif">~25 %</text>
+            </g>
+
+            <!-- Arbeiterklasse -->
+            <g class="seg" id="seg-arbeiter" data-milieu="arbeiter" tabindex="0" role="button" aria-label="Arbeiterklasse – ca. 40%">
+                <polygon points="25,325 0,400 400,400 375,325" fill="#c0392b"/>
+                <text x="200" y="357" text-anchor="middle" fill="white" font-size="13" font-family="'Source Sans 3',sans-serif" font-weight="700">Industriearbeiterklasse</text>
+                <text x="200" y="375" text-anchor="middle" fill="rgba(255,255,255,0.8)" font-size="10" font-family="'Source Sans 3',sans-serif">~40 % · größte Gruppe</text>
+            </g>
+
+            <!-- Frauen (Querschnitt) -->
+            <g class="seg" id="seg-frauen" data-milieu="frauen" tabindex="0" role="button" aria-label="Frauen als Querschnittsmilieu">
+                <rect x="0" y="410" width="400" height="58" rx="6" fill="#7b4fa6"/>
+                <text x="200" y="438" text-anchor="middle" fill="white" font-size="12" font-family="'Source Sans 3',sans-serif" font-weight="700">Frauen – erstmals wahlberechtigt!</text>
+                <text x="200" y="455" text-anchor="middle" fill="rgba(255,255,255,0.8)" font-size="10" font-family="'Source Sans 3',sans-serif">Quer durch alle Schichten · 50 % der Bevölkerung</text>
+            </g>
+
+            <!-- Labels links -->
+            <text x="0" y="55" fill="#9a8878" font-size="9" font-family="'Source Sans 3',sans-serif">← kleiner</text>
+            <text x="0" y="395" fill="#9a8878" font-size="9" font-family="'Source Sans 3',sans-serif">← größer</text>
+        </svg>
+
+        <!-- Legende -->
+        <div class="legend" id="legend">
+            <div class="legend-item" data-milieu="oberschicht"><div class="legend-dot" style="background:#5c3317"></div><span class="legend-label">Oberschicht</span><span class="legend-pct">~5 %</span></div>
+            <div class="legend-item" data-milieu="intellektuelle"><div class="legend-dot" style="background:#8b5e3c"></div><span class="legend-label">Bildungsbürgertum &amp; Intellektuelle</span><span class="legend-pct">~8 %</span></div>
+            <div class="legend-item" data-milieu="mittelstand"><div class="legend-dot" style="background:#3a6186"></div><span class="legend-label">Mittelstand &amp; Kleinbürgertum</span><span class="legend-pct">~20 %</span></div>
+            <div class="legend-item" data-milieu="bauern"><div class="legend-dot" style="background:#4a7c59"></div><span class="legend-label">Bauernschaft &amp; Landarbeiter</span><span class="legend-pct">~25 %</span></div>
+            <div class="legend-item" data-milieu="arbeiter"><div class="legend-dot" style="background:#c0392b"></div><span class="legend-label">Industriearbeiterklasse</span><span class="legend-pct">~40 %</span></div>
+            <div class="legend-item" data-milieu="frauen"><div class="legend-dot" style="background:#7b4fa6"></div><span class="legend-label">Frauen (Querschnittsmilieu)</span><span class="legend-pct">50 %*</span></div>
+        </div>
+    </div>
+
+    <!-- PLACEHOLDER rechts (wird durch JS gefüllt) -->
+    <div id="detail-sidebar" style="position:sticky;top:80px">
+        <div id="sidebar-placeholder" style="background:var(--color-surface);border:1.5px dashed var(--color-border);border-radius:var(--radius-xl);padding:var(--space-8);text-align:center;color:var(--color-text-faint)">
+            <div style="font-size:2rem;margin-bottom:var(--space-3)">👆</div>
+            <p style="font-size:var(--text-sm);max-width:100%;margin:0">Klicke auf ein Milieu, um Details zu sehen.</p>
+        </div>
+
+        <!-- SIDEBAR PANELS -->
+        <div class="detail-panel" id="side-oberschicht">
+            <div class="detail-card">
+                <div class="detail-header" style="background:#5c3317">
+                    <div class="detail-header-tag">Soziale Schicht</div>
+                    <h3>Oberschicht &amp; Adel</h3>
+                    <p>Adelige, Großindustrielle, Bankiers – ca. 5 % der Bevölkerung, aber enormer Einfluss</p>
+                </div>
+                <div class="detail-body">
+                    <div class="detail-tile" style="margin-bottom:var(--space-5)">
+                        <div class="detail-tile-label">Lebenssituation</div>
+                        <div class="detail-tile-value">Großgrundbesitz, Fabriken, Bankkapital. Trotz Kaiserreichs-Ende meist Vermögen erhalten. Leben in Schlössern, Villen, Stadthäusern.</div>
+                    </div>
+                    <div class="detail-columns">
+                        <div class="detail-col">
+                            <h4>Interessen</h4>
+                            <ul class="detail-list">
+                                <li>Erhalt von Eigentum und Privilegien</li>
+                                <li>Starkes Militär</li>
+                                <li>Ablehnung von Gewerkschaften</li>
+                                <li>Rückkehr zur Monarchie oder starken Staatsführung</li>
+                            </ul>
+                        </div>
+                        <div class="detail-col">
+                            <h4>Ängste &amp; Bedrohungen</h4>
+                            <ul class="detail-list">
+                                <li>Sozialisierung ihres Eigentums</li>
+                                <li>Demokratie als „Pöbelherrschaft"</li>
+                                <li>Kommunistische Revolution</li>
+                                <li>Steuer- und Abgabenlast</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="connection-box">
+                        <h4>🗳️ Wahlentscheidung &amp; Zusammenhang</h4>
+                        <p>Die Oberschicht wählte überwiegend <strong>DNVP</strong> (monarchistisch, konservativ) oder <strong>DVP</strong> (wirtschaftsliberal). Sie finanzierte auch nationalistische Parteien, da diese ihre Eigentumsrechte schützten – und lehnte SPD und KPD als existenzielle Bedrohung ab.</p>
+                        <div class="party-badges" style="margin-top:var(--space-3)">
+                            <span class="pbadge" style="background:#78350F">DNVP</span>
+                            <span class="pbadge" style="background:#2563EB">DVP</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="detail-panel" id="side-intellektuelle">
+            <div class="detail-card">
+                <div class="detail-header" style="background:#8b5e3c">
+                    <div class="detail-header-tag">Soziale Schicht</div>
+                    <h3>Bildungsbürgertum &amp; Intellektuelle</h3>
+                    <p>Akademiker, Künstler, Journalisten, Professoren – Träger der „Goldenen Zwanziger"</p>
+                </div>
+                <div class="detail-body">
+                    <div class="detail-tile" style="margin-bottom:var(--space-5)">
+                        <div class="detail-tile-label">Lebenssituation</div>
+                        <div class="detail-tile-value">Leben in Städten (Berlin, München, Hamburg). Relativ gesicherte Existenz durch Bildungsberufe. Prägend für Kultur, Presse und Wissenschaft. Weimar war ihre Hochzeit – Bauhaus, Expressionismus, neue Medien.</div>
+                    </div>
+                    <div class="detail-columns">
+                        <div class="detail-col">
+                            <h4>Interessen</h4>
+                            <ul class="detail-list">
+                                <li>Pressefreiheit und Meinungsfreiheit</li>
+                                <li>Kulturelle Modernisierung</li>
+                                <li>Demokratie und Rechtsstaatlichkeit</li>
+                                <li>Internationale Verständigung</li>
+                            </ul>
+                        </div>
+                        <div class="detail-col">
+                            <h4>Ängste &amp; Bedrohungen</h4>
+                            <ul class="detail-list">
+                                <li>Nationalismus und Zensur</li>
+                                <li>Politische Radikalisierung</li>
+                                <li>Antisemitismus (viele waren jüdisch)</li>
+                                <li>Inflation und Verunsicherung</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="connection-box">
+                        <h4>🗳️ Wahlentscheidung &amp; Zusammenhang</h4>
+                        <p>Das Bildungsbürgertum wählte meist <strong>DDP</strong> (linksliberal, demokratisch) oder <strong>SPD</strong>. Viele engagierten sich aktiv für die Weimarer Verfassung. Ihr Anteil war klein, ihr kultureller Einfluss aber enorm – und ihr Schweigen, als die Demokratie bröckelte, umso fataler.</p>
+                        <div class="party-badges" style="margin-top:var(--space-3)">
+                            <span class="pbadge" style="background:#1E40AF">DDP</span>
+                            <span class="pbadge" style="background:#E3000F">SPD</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="detail-panel" id="side-mittelstand">
+            <div class="detail-card">
+                <div class="detail-header" style="background:#3a6186">
+                    <div class="detail-header-tag">Soziale Schicht</div>
+                    <h3>Mittelstand &amp; Kleinbürgertum</h3>
+                    <p>Händler, Handwerker, Beamte, Lehrer – ca. 20 % · die unberechenbarste Wählergruppe</p>
+                </div>
+                <div class="detail-body">
+                    <div class="detail-tile" style="margin-bottom:var(--space-5)">
+                        <div class="detail-tile-label">Lebenssituation</div>
+                        <div class="detail-tile-value">Kleines Ladengeschäft, eigener Handwerksbetrieb oder Beamtenstelle. Bescheidener Wohlstand, aber sehr anfällig für Inflation. Die Hyperinflation 1923 vernichtete viele Ersparnisse und zerstörte das Vertrauen in die Republik.</div>
+                    </div>
+                    <div class="detail-columns">
+                        <div class="detail-col">
+                            <h4>Interessen</h4>
+                            <ul class="detail-list">
+                                <li>Stabile Währung und Preise</li>
+                                <li>Schutz des Kleingewerbes</li>
+                                <li>Ruhe und Ordnung</li>
+                                <li>Soziale Absicherung ohne Sozialismus</li>
+                            </ul>
+                        </div>
+                        <div class="detail-col">
+                            <h4>Ängste &amp; Bedrohungen</h4>
+                            <ul class="detail-list">
+                                <li>Inflation und Geldentwertung</li>
+                                <li>Konkurrenz durch Großkonzerne</li>
+                                <li>„Proletarisierung" (sozialer Abstieg)</li>
+                                <li>Politische Instabilität</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="connection-box">
+                        <h4>🗳️ Wahlentscheidung &amp; Zusammenhang</h4>
+                        <p>Der Mittelstand wählte zunächst <strong>DDP</strong> und <strong>DVP</strong>, wanderte aber nach der Inflation massenhaft zur <strong>NSDAP</strong> ab. Hitler versprach Ordnung, starkes Unternehmertum und den Schutz des „kleinen Mannes" – genau das, was der Mittelstand verzweifelt suchte.</p>
+                        <div class="party-badges" style="margin-top:var(--space-3)">
+                            <span class="pbadge" style="background:#1E40AF">DDP</span>
+                            <span class="pbadge" style="background:#2563EB">DVP</span>
+                            <span class="pbadge" style="background:#4A5568">Zentrum</span>
+                            <span class="pbadge" style="background:#2C2C2C">NSDAP (ab 1930)</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="detail-panel" id="side-bauern">
+            <div class="detail-card">
+                <div class="detail-header" style="background:#4a7c59">
+                    <div class="detail-header-tag">Soziale Schicht</div>
+                    <h3>Bauernschaft &amp; Landarbeiter</h3>
+                    <p>Großbauern, Kleinbauern, Tagelöhner – ca. 25 % · Deutschland war noch stark agrarisch</p>
+                </div>
+                <div class="detail-body">
+                    <div class="detail-tile" style="margin-bottom:var(--space-5)">
+                        <div class="detail-tile-label">Lebenssituation</div>
+                        <div class="detail-tile-value">Große Unterschiede: Großgrundbesitzer im Osten (Junker) vs. arme Kleinbauern im Süden und Westen. Landarbeiter lebten in ärmlichsten Verhältnissen. Abhängigkeit von Wetter, Preisen und Lohnarbeit.</div>
+                    </div>
+                    <div class="detail-columns">
+                        <div class="detail-col">
+                            <h4>Interessen</h4>
+                            <ul class="detail-list">
+                                <li>Gute Getreide- und Viehpreise</li>
+                                <li>Günstige Kredite für Höfe</li>
+                                <li>Schutz vor billiger Auslandsware</li>
+                                <li>Religiöse Werte und Tradition</li>
+                            </ul>
+                        </div>
+                        <div class="detail-col">
+                            <h4>Ängste &amp; Bedrohungen</h4>
+                            <ul class="detail-list">
+                                <li>Schulden und Hypotheken</li>
+                                <li>Importkonkurrenz (Versailles)</li>
+                                <li>Sozialisierung des Landes</li>
+                                <li>„Städtische" Lebensweise und Werte</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="connection-box">
+                        <h4>🗳️ Wahlentscheidung &amp; Zusammenhang</h4>
+                        <p>Katholische Bauern wählten das <strong>Zentrum</strong>, protestantische Bauern stimmten häufig für <strong>DNVP</strong>. In der Wirtschaftskrise 1929–33 wechselten viele zur <strong>NSDAP</strong>, die Schutzprogramme für die Landwirtschaft versprach.</p>
+                        <div class="party-badges" style="margin-top:var(--space-3)">
+                            <span class="pbadge" style="background:#4A5568">Zentrum</span>
+                            <span class="pbadge" style="background:#78350F">DNVP</span>
+                            <span class="pbadge" style="background:#2C2C2C">NSDAP (ab 1930)</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="detail-panel" id="side-arbeiter">
+            <div class="detail-card">
+                <div class="detail-header" style="background:#c0392b">
+                    <div class="detail-header-tag">Soziale Schicht · Größte Gruppe</div>
+                    <h3>Industriearbeiterklasse</h3>
+                    <p>Fabrikarbeiter, Bergarbeiter, Hafenarbeiter – ca. 40 % · Rückgrat der Republik</p>
+                </div>
+                <div class="detail-body">
+                    <div class="detail-tile" style="margin-bottom:var(--space-5)">
+                        <div class="detail-tile-label">Lebenssituation</div>
+                        <div class="detail-tile-value">Leben in engen Mietskasernen in Industriestädten. 10–12 Stunden Arbeitstag vor 1918, dann erkämpfter 8-Stunden-Tag. Kaum Ersparnisse, hohe Abhängigkeit von Lohnarbeit. Gewerkschaften als zentrale soziale Kraft.</div>
+                    </div>
+                    <div class="detail-columns">
+                        <div class="detail-col">
+                            <h4>Interessen</h4>
+                            <ul class="detail-list">
+                                <li>8-Stunden-Tag &amp; höhere Löhne</li>
+                                <li>Sozialversicherung und Krankenversicherung</li>
+                                <li>Starke Gewerkschaften</li>
+                                <li>Mitbestimmung im Betrieb</li>
+                                <li>Bezahlbare Mieten &amp; Lebensmittel</li>
+                            </ul>
+                        </div>
+                        <div class="detail-col">
+                            <h4>Ängste &amp; Bedrohungen</h4>
+                            <ul class="detail-list">
+                                <li>Arbeitslosigkeit &amp; Lohnkürzungen</li>
+                                <li>Inflation frisst Lohnerhöhungen auf</li>
+                                <li>Auflösung der Gewerkschaften</li>
+                                <li>Rückkehr der alten Eliten</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="connection-box">
+                        <h4>🗳️ Wahlentscheidung &amp; Zusammenhang</h4>
+                        <p>Die Arbeiterklasse war gespalten: Gemäßigte wählten <strong>SPD</strong> (Reformen durch Demokratie), Radikale wählten <strong>KPD</strong> (Revolution). Diese Spaltung war fatal: Sie verhinderte eine geeinte Linke und erleichterte den Aufstieg Hitlers. Nur wenige Arbeiter wählten NSDAP – aber genug, um den Unterschied zu machen.</p>
+                        <div class="party-badges" style="margin-top:var(--space-3)">
+                            <span class="pbadge" style="background:#E3000F">SPD</span>
+                            <span class="pbadge" style="background:#C2410C">USPD</span>
+                            <span class="pbadge" style="background:#B71C1C">KPD</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="detail-panel" id="side-frauen">
+            <div class="detail-card">
+                <div class="detail-header" style="background:#7b4fa6">
+                    <div class="detail-header-tag">Querschnittsmilieu · Historische Premiere</div>
+                    <h3>Frauen – erstmals wahlberechtigt</h3>
+                    <p>50 % der Bevölkerung – 1919 zum ersten Mal in der deutschen Geschichte wahlberechtigt</p>
+                </div>
+                <div class="detail-body">
+                    <div class="detail-tile" style="margin-bottom:var(--space-5)">
+                        <div class="detail-tile-label">Historischer Durchbruch</div>
+                        <div class="detail-tile-value">Mit der Weimarer Verfassung 1919 erhielten Frauen das aktive und passive Wahlrecht. Bei der Nationalversammlung stellten Frauen sofort 37 Abgeordnete (8,7 %). Ein revolutionärer Schritt – erkämpft durch die Frauenbewegung seit dem 19. Jahrhundert.</div>
+                    </div>
+                    <div class="detail-columns">
+                        <div class="detail-col">
+                            <h4>Interessen</h4>
+                            <ul class="detail-list">
+                                <li>Gleichberechtigung vor dem Gesetz</li>
+                                <li>Zugang zu Bildung und Berufen</li>
+                                <li>Schutz von Müttern und Kindern</li>
+                                <li>Frieden (Kriegswitwen!)</li>
+                                <li>Soziale Absicherung</li>
+                            </ul>
+                        </div>
+                        <div class="detail-col">
+                            <h4>Soziale Realität</h4>
+                            <ul class="detail-list">
+                                <li>Kriegswitwen und Trümmerfrauen</li>
+                                <li>Fabrikarbeit für Niedriglöhne</li>
+                                <li>Hausarbeit ohne rechtliche Absicherung</li>
+                                <li>„Neue Frau" in der Stadt vs. traditionelle Frau auf dem Land</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="connection-box">
+                        <h4>🗳️ Wahlentscheidung &amp; Zusammenhang</h4>
+                        <p>Frauen wählten 1919 häufiger als Männer das <strong>Zentrum</strong> und die <strong>DDP</strong> – religiöse und liberale Werte sprachen sie an. Arbeiterfrauen wählten <strong>SPD</strong>. Ab 1930 wählten auch Frauen häufiger NSDAP – Hitlers Versprechen von Sicherheit, Familie und Ordnung sprach viele an.</p>
+                        <div class="party-badges" style="margin-top:var(--space-3)">
+                            <span class="pbadge" style="background:#4A5568">Zentrum</span>
+                            <span class="pbadge" style="background:#1E40AF">DDP</span>
+                            <span class="pbadge" style="background:#E3000F">SPD</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div><!-- #detail-sidebar -->
+</div><!-- .pyramid-layout -->
+</div>
+</section>
+
+<!-- VERGLEICH -->
+<section class="compare-section">
+<div class="container">
+    <h2>Milieu, Interessen &amp; Wahlentscheidung im Überblick</h2>
+    <p class="lead">Die Tabelle zeigt auf einen Blick: Wer lebte wie – und wen wählte man deshalb?</p>
+    <div class="compare-table-wrap">
+        <table>
+            <thead>
+                <tr>
+                    <th>Milieu</th>
+                    <th>Anteil</th>
+                    <th>Hauptinteresse</th>
+                    <th>Größte Angst</th>
+                    <th>Wahlentscheidung 1919</th>
+                    <th>Verschiebung ab 1930</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Oberschicht</strong></td>
+                    <td>~5 %</td>
+                    <td>Eigentumsschutz, starker Staat</td>
+                    <td>Enteignung, Revolution</td>
+                    <td><span class="pbadge" style="background:#78350F">DNVP</span> <span class="pbadge" style="background:#2563EB">DVP</span></td>
+                    <td>Finanzierung der NSDAP</td>
+                </tr>
+                <tr>
+                    <td><strong>Bildungsbürgertum</strong></td>
+                    <td>~8 %</td>
+                    <td>Demokratie, Freiheit, Kultur</td>
+                    <td>Nationalismus, Zensur</td>
+                    <td><span class="pbadge" style="background:#1E40AF">DDP</span> <span class="pbadge" style="background:#E3000F">SPD</span></td>
+                    <td>Viele emigrierten 1933</td>
+                </tr>
+                <tr>
+                    <td><strong>Mittelstand</strong></td>
+                    <td>~20 %</td>
+                    <td>Stabilität, Ordnung</td>
+                    <td>Inflation, sozialer Abstieg</td>
+                    <td><span class="pbadge" style="background:#1E40AF">DDP</span> <span class="pbadge" style="background:#2563EB">DVP</span></td>
+                    <td>→ NSDAP (Hauptwähler!)</td>
+                </tr>
+                <tr>
+                    <td><strong>Bauernschaft</strong></td>
+                    <td>~25 %</td>
+                    <td>Agrarpreise, Religion, Boden</td>
+                    <td>Schulden, Enteignung</td>
+                    <td><span class="pbadge" style="background:#4A5568">Zentrum</span> <span class="pbadge" style="background:#78350F">DNVP</span></td>
+                    <td>→ NSDAP in Krisenjahren</td>
+                </tr>
+                <tr>
+                    <td><strong>Arbeiterklasse</strong></td>
+                    <td>~40 %</td>
+                    <td>Löhne, Sozialstaat, Gewerkschaften</td>
+                    <td>Arbeitslosigkeit, Reaktion</td>
+                    <td><span class="pbadge" style="background:#E3000F">SPD</span> <span class="pbadge" style="background:#B71C1C">KPD</span></td>
+                    <td>Spaltung blieb – fatal</td>
+                </tr>
+                <tr>
+                    <td><strong>Frauen</strong></td>
+                    <td>50 %*</td>
+                    <td>Gleichberechtigung, Frieden, Familie</td>
+                    <td>Armut, Unsicherheit</td>
+                    <td><span class="pbadge" style="background:#4A5568">Zentrum</span> <span class="pbadge" style="background:#1E40AF">DDP</span></td>
+                    <td>Teils → NSDAP (Sicherheitsversprechen)</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+</section>
+
+<!-- AUFGABEN -->
+<section class="tasks-section">
+<div class="container">
+    <h2>🖊️ Aufgaben: Soziale Lage und Wahlentscheidung</h2>
+    <div class="tasks-grid">
+        <div class="task-card">
+            <div class="task-num-badge">1</div>
+            <h4>Milieu-Zuordnung</h4>
+            <p>Wähle ein Milieu aus der Pyramide. Beschreibe: Wie lebten diese Menschen? Welche drei Dinge waren ihnen besonders wichtig?</p>
+        </div>
+        <div class="task-card">
+            <div class="task-num-badge">2</div>
+            <h4>Zusammenhang erklären</h4>
+            <p>Erkläre in eigenen Worten: Warum wählte die Arbeiterklasse SPD oder KPD – und warum der Mittelstand DVP oder DDP?</p>
+        </div>
+        <div class="task-card">
+            <div class="task-num-badge">3</div>
+            <h4>Inflationsopfer</h4>
+            <p>Die Hyperinflation 1923 traf bestimmte Milieus besonders hart. Welche? Und wie beeinflusste das ihre spätere Wahlentscheidung?</p>
+        </div>
+        <div class="task-card">
+            <div class="task-num-badge">4</div>
+            <h4>Frauen &amp; Wahl 1919</h4>
+            <p>Frauen wählten 1919 zum ersten Mal. Recherchiere: Wer kämpfte dafür? Was veränderte sich dadurch in der Nationalversammlung?</p>
+        </div>
+        <div class="task-card">
+            <div class="task-num-badge">5</div>
+            <h4>Aufstieg der NSDAP</h4>
+            <p>1919 war die NSDAP kaum relevant. Welche Milieus wechselten ab 1929 zu ihr – und warum? Nutze die Tabelle als Hilfe.</p>
+        </div>
+        <div class="task-card">
+            <div class="task-num-badge">6</div>
+            <h4>Dein Milieu</h4>
+            <p>Stell dir vor, du lebst 1919. Zu welchem Milieu würdest du gehören? Wen würdest du wählen – und warum? Begründe mit deiner sozialen Lage.</p>
+        </div>
+    </div>
+</div>
+</section>
+
+</main>
+<footer>Unterrichtsmaterial · Soziale Milieus der Weimarer Republik 1919 · Erstellt für den Geschichtsunterricht</footer>
+
+<script>
+const allSegs = document.querySelectorAll('.seg');
+const allLegend = document.querySelectorAll('.legend-item');
+const allPanels = document.querySelectorAll('.detail-panel');
+const placeholder = document.getElementById('sidebar-placeholder');
+
+function activate(milieu) {
+    // Segments
+    allSegs.forEach(s => s.classList.toggle('active', s.dataset.milieu === milieu));
+    // Legend
+    allLegend.forEach(l => l.classList.toggle('active', l.dataset.milieu === milieu));
+    // Panels
+    placeholder.style.display = 'none';
+    allPanels.forEach(p => {
+        const isTarget = p.id === 'side-' + milieu;
+        p.classList.toggle('active', isTarget);
+    });
+}
+
+allSegs.forEach(seg => {
+    seg.addEventListener('click', () => activate(seg.dataset.milieu));
+    seg.addEventListener('keydown', e => { if(e.key==='Enter'||e.key===' ') activate(seg.dataset.milieu); });
+});
+allLegend.forEach(item => {
+    item.addEventListener('click', () => activate(item.dataset.milieu));
+});
+</script>
+</body>
+</html>
